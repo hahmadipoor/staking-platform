@@ -2,10 +2,10 @@
 pragma solidity ^0.8.27;
 
 
-import "./Ownable.sol";
-import "./ReentrancyGuard.sol";
-import "./Initializable.sol";
-import "./IERC20.sol";
+import "./library/Ownable.sol";
+import "./library/ReentrancyGuard.sol";
+import "./library/Initializable.sol";
+import "./interface/IERC20.sol";
 
 contract TokenStaking is Ownable, ReentrancyGuard, Initializable {
     // Struct to store the User's Details

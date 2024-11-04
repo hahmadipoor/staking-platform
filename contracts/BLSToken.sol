@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.27;
 
-contract Theblockchaincoders {
-    string public name ="@theblockchaincoders";
-    string public symbol = "TBC";
-    string public standard = "theblockchain coders v.0.1";
+contract BLSToken {
+    string public name ="@BlumLiquidityStaking";
+    string public symbol = "BLS";
+    string public standard = "Blum v.0.1";
     uint256 public totalSupply;
     address public ownerOfContract;
     uint256 public _userId;
