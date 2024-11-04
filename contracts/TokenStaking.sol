@@ -291,7 +291,7 @@ contract TokenStaking is Ownable, ReentrancyGuard, Initializable {
 
     // This function is used to stake tokens
     function stake(uint256 _amount) external nonReentrant{
-        _stakeTokens(_mount, msg.sender);
+        _stakeTokens(_amount, msg.sender);
     }
 
     function _stakeTokens(uint256 _amount, address user_) private {
@@ -379,7 +379,47 @@ contract TokenStaking is Ownable, ReentrancyGuard, Initializable {
         emit ClaimReward(msg.sender, rewardAmount);
     }
 
+    
+    
+    
+    /***    Private methods */
+
+    
+    
+    // this function is used to calculate reweards for a user
+    function _calculateRewards(address _user) private {
+        (uint256 userReward, uint256 currentTime) = _getUserEstimatedRewards(_user);
+        
+        _users[_user].rewardAmount +=userReward;
+        _users[_user].lastRewardCalculationTime=currentTime;
+    }
+    
 
 
+
+
+    // This function is used to get estimated rewards for a user
+    function _getUserEstimatedRewards(address _user) private view returns (uint256, uint256){
+        uint256 userReward;
+        uint256 userTimestamp=_users[_user].lastRewardCalculationTime;
+
+        uint256 currentTime=getCurrentTime();
+
+        if(currentTime>_users[_user].lastStakeTime+_stakeDays){
+            currentTime = _users[_user].lastStakeTime+_stakeDays;
+        }
+
+        uint256 totalStakedTime = currentTime - userTimestamp;
+
+        userReward+=((totalStakedTime * _users[_user].stakeAmount *_apyRate)/365 days)/PERCENTAGE_DENOMINATOR;
+        
+        return (userReward, currentTime);
+    }
+
+
+
+    function getCurrentTime() internal view virtual returns (uint256){
+        return block.timestamp;
+    }
     
 }
